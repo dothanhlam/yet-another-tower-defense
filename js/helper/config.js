@@ -3,8 +3,8 @@
  */
 
 define({
-    width: 1024,
-    height : 768,
+    width: 768,
+    height : 640,
     
     app_name: 'Yet Another Tower Defense',
     api_key: 'N/A',
