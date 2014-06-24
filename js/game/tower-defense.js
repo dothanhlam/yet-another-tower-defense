@@ -3,9 +3,9 @@
  */
 
 define(
-		[ "phaser", "helper/config", "helper/game-save", "screen/boot",
+		[ "phaser", "helper/config", "helper/game-save", "screen/boot", "screen/preloader",
 				"screen/menu", "screen/play", "screen/result" ],
-		function(Phaser, config, user, Boot, Menu, Play, Result) {
+		function(Phaser, config, user, Boot, Preloader, Menu, Play, Result) {
 			var instance = null;
 
 			function TowerDefense() {
@@ -19,7 +19,7 @@ define(
 
 			TowerDefense.prototype = {
 				initialize : function() {
-					this.game = new Phaser.Game(config.WIDTH, config.HEIGHT,
+					this.game = new Phaser.Game(config.width, config.height,
 							Phaser.AUTO, "", {
 								preload : this.preload.bind(this),
 								create : this.create.bind(this)
@@ -45,6 +45,7 @@ define(
 
 				start : function() {
 					this.game.state.add("Boot", new Boot(this.game));
+					this.game.state.add("Preloader", new Preloader(this.game));
 					this.game.state.add("Menu", new Menu(this.game));
 					this.game.state.add("Play", new Boot(Play.game));
 					this.game.state.add("Result", new Result(this.game));

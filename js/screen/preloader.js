@@ -2,19 +2,19 @@
  * 
  */
 define([], function() {
-	function Boot(game) {
+
+	function Preloader(game) {
 		this.game = game;
 	}
 
-	Boot.prototype = {
+	Preloader.prototype = {
 		preload : function() {
 		},
 
 		create : function() {
-		
-			this.game.state.start('Preloader');
+			console.log('Preloader.create');
 		}
 	};
 
-	return Boot;
+	return Preloader;
 });
