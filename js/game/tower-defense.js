@@ -47,7 +47,7 @@ define(
 					this.game.state.add("Boot", new Boot(this.game));
 					this.game.state.add("Preloader", new Preloader(this.game));
 					this.game.state.add("Menu", new Menu(this.game));
-					this.game.state.add("Play", new Play(Play.game));
+					this.game.state.add("Play", new Play(this.game));
 					this.game.state.add("Result", new Result(this.game));
 
 					this.game.state.start("Boot");
