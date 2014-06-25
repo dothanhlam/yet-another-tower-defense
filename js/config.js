@@ -15,6 +15,6 @@ define(["game/tower-defense", "helper/config", "helper/game-save"], function(Tow
 		localStorage.setItem("user", User.toJSON());
 	}
 
-	Config.fromJSON(config);
+//	Config.fromJSON(config);
 	User.fromJSON(user);
 });
