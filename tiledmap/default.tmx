@@ -5,7 +5,7 @@
  </tileset>
  <layer name="World" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJwTZGBgEBzEWAALprb5tDSPUrdjM48St49E83DFwVBLS9QwjxCmpn20wACGIhPF
+   eJwTZGBgEBzEWAALpkQ/NnlSzSNFnlL7sZmHT+9IN08WCYtiCX9SzeMEYl4gZgViMRLdjk2MGYh5gJiNSuaB3MdPgnmE8hM3VIwY8/BhSSCWh/qXBYiZKDQPZBYjEAMAV/ITiQ==
   </data>
  </layer>
 </map>

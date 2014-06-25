@@ -4,35 +4,83 @@
 
 define(function() {
 
-	Enemy = function(game, spriteName, x, y) {
+	Enemy = function(game, layer, map, spriteName, x, y, speed) {
 		this.game = game;
-		this.lastDir = "";
-		this.sprite = this.game.add.sprite(x*32 + 16, y*32 + 16, spriteName);
+		this.layer = layer;
+		this.map = map;
+		this.lastDir = "none";
+		this.speed = speed;
+
+		this.sprite = this.game.add.sprite(x * 32 + 16, y * 32 + 16, spriteName);
 		this.game.physics.enable(this.sprite);
-		
-	//	this.sprite.body.setSize(32, 32, 16, 16);
-		this.sprite.body.bounce.y = 0.2;
-		this.sprite.body.linearDamping = 1;
+
 		this.sprite.body.collideWorldBounds = true;
-		
+
 		this.sprite.anchor.setTo(0.5, 0.5);
-		
-		this.sprite.body.velocity.x = 0;
+
+		this.sprite.body.velocity.x = speed;
 		this.sprite.body.velocity.y = 0;
 		
-		this.sprite.body.velocity.x = 64;
-
 	};
-	
+
 	Enemy.prototype = {
-			init : function() {
+		init : function() {
 
-			},
-			
-			update : function() {
-				
+		},
+
+		update : function() {
+			this.game.physics.arcade.collide(this.sprite, this.layer,
+					this.collisionHandler, null, this);
+
+		},
+
+		collisionHandler : function(obj1, obj2) {
+			var dir = this.findDirection();
+
+			if (dir == "bottom") {
+				obj1.body.velocity.x = 0;
+				obj1.body.velocity.y = this.speed;
+				obj1.angle = 90;
 			}
+
+			if (dir == "right" || dir == "left") {
+				obj1.body.velocity.x = this.speed;
+				obj1.body.velocity.y = 0;
+				obj1.angle = 0;
+			}
+
+			if (dir == "top") {
+				obj1.body.velocity.x = 0;
+				obj1.body.velocity.y = -this.speed;
+				obj1.angle = -90;
+			}
+			this.lastDir = dir;
+
+		},
+
+		findDirection : function() {
+			var tileX = Math.round(this.sprite.x / 32);
+			var tileY = Math.round(this.sprite.y / 32);
+
+			var right = this.map.getTile(tileX + 1, tileY, this.layer, true).index;
+			var left = this.map.getTile(tileX - 1, tileY, this.layer, true).index;
+			var bottom = this.map.getTile(tileX, tileY + 1, this.layer, true).index;
+			var top = this.map.getTile(tileX, tileY - 1, this.layer, true).index;
+
+			if (right == 16 && this.lastDir != "right") {
+				return "right";
+			}
+			if (left == 16 && this.lastDir != "left") {
+				return "left";
+			}
+			if (bottom == 16 && this.lastDir != "bottom") {
+				return "bottom";
+			}
+			if (top == 16 && this.lastDir != "top") {
+				return "top";
+			}
+		},
 	};
-	
+
 	return Enemy;
 });
