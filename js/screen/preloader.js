@@ -13,6 +13,7 @@ define(['phaser'], function(Phaser) {
 		preload : function() {
 		    this.game.load.tilemap('default', 'assets/tiled/default.json', null, Phaser.Tilemap.TILED_JSON);
 		    this.game.load.image('tiles', 'assets/image/RPGTiles.png');
+		    this.game.load.image('car', 'assets/image/car90.png');
 		},
 
 		create : function() {
