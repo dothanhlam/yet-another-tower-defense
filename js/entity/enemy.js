@@ -9,6 +9,7 @@ define(function() {
 		this.layer = layer;
 		this.map = map;
 		this.lastDir = "none";
+        
 
 		this.explosions = this.game.add.group();
 		for (var i = 0; i < 10; i++) {
@@ -33,6 +34,7 @@ define(function() {
 		this.sprite.body.velocity.y = 0;
 
 		this.alive = true;
+        
 		this.health = 20;
 		this.speed = speed;
 	};

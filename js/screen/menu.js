@@ -27,49 +27,59 @@ define([], function() {
             var currentPosY = this.game.world.centerY - 75;
             menuPlay = this.game.add.sprite(this.game.world.centerX,currentPosY,'play');
             menuPlay.anchor.setTo(0.5, 0.5);
-            menuPlay.name = "play";
              menuPlay.inputEnabled = true;
-            arrMenu.push(menuPlay);
+          
             
             menuItem = this.game.add.sprite(this.game.world.centerX,currentPosY+34,'item');
             menuItem.anchor.setTo(0.5, 0.5);
-             menuItem.inputEnabled = true;
-            menuItem.name = "item";
-            arrMenu.push(menuItem);
+            menuItem.inputEnabled = true;
+
             menuOption = this.game.add.sprite(this.game.world.centerX,currentPosY+68,'option');
             menuOption.anchor.setTo(0.5, 0.5);
             menuOption.inputEnabled = true;
-             arrMenu.push(menuOption);
+
             menuHelp = this.game.add.sprite(this.game.world.centerX,currentPosY+102,'help');
             menuHelp.anchor.setTo(0.5, 0.5);
             menuHelp.inputEnabled = true;
-             arrMenu.push(menuHelp);
+   
+             
             menuExit = this.game.add.sprite(this.game.world.centerX,currentPosY+138,'exit');
             menuExit.anchor.setTo(0.5, 0.5);
             menuExit.inputEnabled = true;
-            arrMenu.push(menuExit);
+       
             
-           for (var i = 0; i < arrMenu.length; i++)
-           {
-                arrMenu[i].events.onInputDown.add(this.onclick, this);
-                arrMenu[i].events.onInputOver.add(this.onMouseHover( arrMenu[i]), this);
-                arrMenu[i].events.onInputOut.add(this.onMouseOut(arrMenu[i]), this);
-           }
+            // add event manual
+            menuPlay.events.onInputDown.add(this.onPlaycClick, this);
+            menuItem.events.onInputDown.add(this.onItemClick, this);
+            menuOption.events.onInputDown.add(this.onOptioncClick, this);
+            menuHelp.events.onInputDown.add(this.onPlaycClick, this);
+            menuExit.events.onInputDown.add(this.onHelpClickClick, this);
             
             
 		},
-        onclick: function(obj){
+        onPlaycClick: function(obj){
             console.log(obj);
+          this.game.state.start('Play');
+        },
+         onItemClick: function(obj){
+            console.log('Item');
+          //this.game.state.start('Play');
+        },
+          onOptioncClick: function(obj){
+            console.log('Option');
+          //this.game.state.start('Play');
+        },
+         onHelpClickClick: function(obj){
+            console.log('Help');
+          //this.game.state.start('Play');
+        },
+          onExitcClick: function(obj){
+            console.log('Exit');
           //this.game.state.start('Play');
         },
         
-        onMouseHover: function(menu){
-            menu.input.useHandCursor = true;
-        },
         
-        onMouseOut: function(menu){
-            menu.input.useHandCursor = false;
-        },
+       
         
         update : function() {
             

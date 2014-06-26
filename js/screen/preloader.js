@@ -20,7 +20,7 @@ define(['phaser'], function(Phaser) {
 		},
 
 		create : function() {
-			this.game.state.start('Play');
+			this.game.state.start('Menu');
 		}
 	};
 
