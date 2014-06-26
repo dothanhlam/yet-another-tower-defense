@@ -4,14 +4,25 @@
 
 define(function() {
 
-	Enemy = function(game, layer, map, spriteName, x, y, speed) {
+	Enemy = function(game, layer, map, index, spriteName, x, y, speed) {
 		this.game = game;
 		this.layer = layer;
 		this.map = map;
 		this.lastDir = "none";
-		this.speed = speed;
 
-		this.sprite = this.game.add.sprite(x * 32 + 16, y * 32 + 16, spriteName);
+		this.explosions = this.game.add.group();
+		for (var i = 0; i < 10; i++) {
+			var explosionAnimation = this.explosions.create(0, 0, 'kaboom',
+					[ 0 ], false);
+			explosionAnimation.anchor.setTo(0.5, 0.5);
+			explosionAnimation.animations.add('kaboom');
+		}
+
+		this.sprite = this.game.add
+				.sprite(x * 32 + 16, y * 32 + 16, spriteName);
+		this.sprite.name = spriteName + "_" + index;
+		this.name = this.sprite.name;
+
 		this.game.physics.enable(this.sprite);
 
 		this.sprite.body.collideWorldBounds = true;
@@ -20,7 +31,10 @@ define(function() {
 
 		this.sprite.body.velocity.x = speed;
 		this.sprite.body.velocity.y = 0;
-		
+
+		this.alive = true;
+		this.health = 20;
+		this.speed = speed;
 	};
 
 	Enemy.prototype = {
@@ -31,7 +45,6 @@ define(function() {
 		update : function() {
 			this.game.physics.arcade.collide(this.sprite, this.layer,
 					this.collisionHandler, null, this);
-
 		},
 
 		collisionHandler : function(obj1, obj2) {
@@ -80,6 +93,23 @@ define(function() {
 				return "top";
 			}
 		},
+
+		damage : function(val) {
+			this.health -= val;
+			
+			if (this.health <= 0) {
+
+				this.alive = false;
+				this.sprite.kill();
+
+				var explosionAnimation = this.explosions.getFirstExists(false);
+				explosionAnimation.reset(this.sprite.x, this.sprite.y);
+				explosionAnimation.play('kaboom', 30, false, true);
+
+				return true;
+			}
+			return false;
+		}
 	};
 
 	return Enemy;

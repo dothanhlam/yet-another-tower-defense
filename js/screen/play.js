@@ -53,12 +53,13 @@ define(["entity/enemy", "entity/tower"], function(Enemy, Tower) {
 		},
 		
 		addEnemy: function() {
-			this.enemies.push(new Enemy(this.game, this.layer, this.map, 'car', 0, 2, 128));
+			var index = this.enemies.length;
+			this.enemies.push(new Enemy(this.game, this.layer, this.map, index, 'car', 0, 2, 128));
 		},
 		
 		 addTower: function() {
 			 this.towers.push(new Tower(this.game,"canon", "base", "bullet",2, 1, 1));
-			 this.towers.push(new Tower(this.game,"canon", "base", "bullet", 5, 2, 1));
+			 this.towers.push(new Tower(this.game,"canon", "base", "bullet", 5, 2, 3));
 			 this.towers.push(new Tower(this.game,"canon", "base", "bullet", 5, 3, 1));
 
 			 this.towers.push(new Tower(this.game,"canon", "base", "bullet", 5, 4, 1));

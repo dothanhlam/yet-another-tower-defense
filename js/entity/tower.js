@@ -12,13 +12,7 @@ define([], function() {
 
 		this.tank.body.setSize(96 * range, 96 * range, 0, 0);
 		this.tank.body.reset(x * 32 + 16, y * 32 + 16);
-		this.tank.body.immovable = true;
-		this.tank.body.customSeparateX = true;
-		this.tank.body.customSeparateY = true;
-
-		this.tank.animations.add('move', [ 'tank1', 'tank2', 'tank3', 'tank4',
-				'tank5', 'tank6' ], 20, true);
-
+	
 		this.turret = this.game.add.sprite(x * 32 + 16, y * 32 + 16, 'tank',
 				'turret');
 		this.turret.anchor.setTo(0.3, 0.5);
@@ -28,7 +22,8 @@ define([], function() {
 		this.tank.scale.x = this.tank.scale.y = 0.5;
 
 		this.range = range;
-
+		this.trackingEnemies = null;
+		
 		this.fireRate = 100;
 		this.nextFire = 0;
 		this.bullets = this.game.add.group();
@@ -61,20 +56,45 @@ define([], function() {
 			}
 		},
 
+		lockTarget: function(target) {
+			if (this.trackingEnemies == null) {
+				return null;
+			}
+			for (var i = 0; i < this.trackingEnemies.length; i++) {
+				if (this.trackingEnemies[i].name === target.name) {
+					return this.trackingEnemies[i];
+				}
+			}
+			return null;
+		},
+		
 		update : function(enemies) {
+			this.trackingEnemies = enemies;
+			
 			for (var i = 0; i < enemies.length; i++) {
-				this.game.physics.arcade.collide(this.tank, enemies[i].sprite,
-						this.collisionHandler, this.processCallback, this);
+				if (enemies[i].alive) {
+					this.game.physics.arcade.overlap(this.tank, enemies[i].sprite,
+						this.overlappingHandler, null, this);
+					this.game.physics.arcade.overlap(this.bullets, enemies[i].sprite,
+							this.bulletsHitEmeniesHandler, null, this);
+				}
 			}
 		},
 
-		collisionHandler : function(base, target) {
-		},
-
-		processCallback : function(base, target) {
+		overlappingHandler : function(base, target) {
 			this.turret.rotation = this.game.physics.arcade.angleBetween(
 					this.turret, target);
 			this.fire(this.turret, target);
+		},
+		
+		bulletsHitEmeniesHandler: function(target, bullet) {
+		
+			var lockedTarget = this.lockTarget(target);
+			if (lockedTarget) {
+				lockedTarget.damage(1);
+			}
+			
+			bullet.kill();
 		}
 	};
 
