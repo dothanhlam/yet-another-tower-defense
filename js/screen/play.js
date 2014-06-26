@@ -6,10 +6,13 @@ define(["entity/enemy", "entity/tower"], function(Enemy, Tower) {
 	function Play(game) {
 		this.game = game;
 		this.map = null;
-		this.layer = null;
+		this.worldLayer = null;
+		
 		
 		this.towers  = [];
-		this.enemies = [];		
+		this.enemies = [];
+		
+		this.enemiesCount = 0;
 	}
 
 	Play.prototype = {
@@ -23,27 +26,24 @@ define(["entity/enemy", "entity/tower"], function(Enemy, Tower) {
 			this.map = this.game.add.tilemap('default');
 			this.map.addTilesetImage('default', 'tiles', 32, 32, 0, 0, 1);
 			
-			this.layer = this.map.createLayer("World");
-		    this.layer.resizeWorld();
+			this.worldLayer = this.map.createLayer("World");
+		    this.worldLayer.resizeWorld();
 		    this.map.setCollision([17]);
 		    
 		    this.addTower();
 		    this.addEnemy();
 		    
-		    var self = this;
+		   var self = this;
 		    setInterval( function() {
 		    	self.addEnemy();
-		    }, 2000);  
-		    
+		    }, 2000);   		   
 		},
 		
 		update : function() {	
 			var i;
 			if (this.enemies) {
 				for (i = 0; i < this.enemies.length; i ++) {
-					if (this.enemies[i].alive) {
-						this.enemies[i].update();
-					}
+					this.enemies[i].update();		
 				}
 			}
 			
@@ -51,17 +51,16 @@ define(["entity/enemy", "entity/tower"], function(Enemy, Tower) {
 				for (i = 0; i < this.towers.length; i ++) {
 					 this.towers[i].update(this.enemies);
 				}
-			}
-			
-		//	this.garbage();
+			}			
 		},
 		
 		addEnemy: function() {
-			var index = this.enemies.length;
-			this.enemies.push(new Enemy(this.game, this.layer, this.map, index, 'car', 0, 2, 128));
+			this.enemies.push(new Enemy(this.game, this.worldLayer, this.map,  this.enemiesCount++, 'car', 0, 2, 128));
+			this.garbage();
+
 		},
 		
-		 addTower: function() {
+		 addTower: function() {			 
 			 this.towers.push(new Tower(this.game,"canon", "base", "bullet",2, 1, 1));
 			 this.towers.push(new Tower(this.game,"canon", "base", "bullet", 5, 2, 3));
 			 this.towers.push(new Tower(this.game,"canon", "base", "bullet", 5, 3, 2));
@@ -72,12 +71,7 @@ define(["entity/enemy", "entity/tower"], function(Enemy, Tower) {
 		 },
 		 
 		 garbage: function() {
-			 for(var i = this.enemies.length; i--;) {
-		          if(this.enemies[i].alive == false) {
-		        	  this.enemies[i].splice(i, 1);
-		        	  
-		          }
-		      }
+			 
 		 }
 	};
 
