@@ -33,7 +33,7 @@ define(["entity/enemy", "entity/tower"], function(Enemy, Tower) {
 		    var self = this;
 		    setInterval( function() {
 		    	self.addEnemy();
-		    }, 500);  
+		    }, 2000);  
 		    
 		},
 		
@@ -44,15 +44,12 @@ define(["entity/enemy", "entity/tower"], function(Enemy, Tower) {
 					if (this.enemies[i].alive) {
 						this.enemies[i].update();
 					}
-                    
-                  
 				}
 			}
 			
 			if (this.towers) {
 				for (i = 0; i < this.towers.length; i ++) {
 					 this.towers[i].update(this.enemies);
-                    console.log(this.towers.length);
 				}
 			}
 			

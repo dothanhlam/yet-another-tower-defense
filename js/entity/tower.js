@@ -5,7 +5,7 @@
 define([], function() {
 	function Tower(game, canonSprite, baseSprite, bulletSprite, x, y, range) {
 		this.game = game;
-		this.tank = this.game.add.sprite(x * 32 + 16, y * 32 + 16, 'tank',
+		this.tank = this.game.add.sprite(x * 32 + 16, y * 32 + 16, 'tanks',
 				'tank1');
 		this.tank.anchor.setTo(0.5, 0.5);
 		this.game.physics.enable(this.tank, Phaser.Physics.ARCADE);
@@ -13,7 +13,7 @@ define([], function() {
 		this.tank.body.setSize(96 * range, 96 * range, 0, 0);
 		this.tank.body.reset(x * 32 + 16, y * 32 + 16);
 	
-		this.turret = this.game.add.sprite(x * 32 + 16, y * 32 + 16, 'tank',
+		this.turret = this.game.add.sprite(x * 32 + 16, y * 32 + 16, 'tanks',
 				'turret');
 		this.turret.anchor.setTo(0.3, 0.5);
 		this.turret.rotation = 0;
@@ -35,7 +35,7 @@ define([], function() {
 		this.bullets.setAll('outOfBoundsKill', true);
 		this.bullets.setAll('checkWorldBounds', true);
 
-		this.game.debug.body(this.tank);
+	//	this.game.debug.body(this.tank);
 	}
 
 	Tower.prototype = {

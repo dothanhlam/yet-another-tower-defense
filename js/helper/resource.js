@@ -11,7 +11,7 @@ define({
 	loadAtlas : function(arr) { // must be .png
 		for (var i = 0; i < arr.length; i++) {
 			var name = arr[i];
-			this.game.load.atlasJSONHash(name, "assets/atlas/" + arr[i]
+			this.game.load.atlas(name, "assets/image/" + arr[i]
 					+ ".png", "assets/atlas/" + arr[i] + ".json");
 		}
 	},
@@ -23,7 +23,14 @@ define({
 		}
 	},
 	
-	loadTiledMap: function() {
-		
+	loadTiledMap: function(arr) {
+		for (var i = 0; i < arr.length; i++) {
+			var name = arr[i];
+		    this.game.load.tilemap(name, 'assets/tiled/'+name+'.json', null, Phaser.Tilemap.TILED_JSON);
+		}
+	},
+	
+	loadSingleSpriteSheet: function(name, w, h, frames ) {
+	    this.game.load.spritesheet(name, 'assets/image/'+name+'.png', w, h, frames);
 	}
 });
