@@ -41,7 +41,9 @@ define(["entity/enemy", "entity/tower"], function(Enemy, Tower) {
 			var i;
 			if (this.enemies) {
 				for (i = 0; i < this.enemies.length; i ++) {
-					 this.enemies[i].update();
+					if (this.enemies[i].alive) {
+						this.enemies[i].update();
+					}
 				}
 			}
 			
@@ -50,6 +52,8 @@ define(["entity/enemy", "entity/tower"], function(Enemy, Tower) {
 					 this.towers[i].update(this.enemies);
 				}
 			}
+			
+		//	this.garbage();
 		},
 		
 		addEnemy: function() {
@@ -60,12 +64,20 @@ define(["entity/enemy", "entity/tower"], function(Enemy, Tower) {
 		 addTower: function() {
 			 this.towers.push(new Tower(this.game,"canon", "base", "bullet",2, 1, 1));
 			 this.towers.push(new Tower(this.game,"canon", "base", "bullet", 5, 2, 3));
-			 this.towers.push(new Tower(this.game,"canon", "base", "bullet", 5, 3, 1));
-
+			 this.towers.push(new Tower(this.game,"canon", "base", "bullet", 5, 3, 2));
 			 this.towers.push(new Tower(this.game,"canon", "base", "bullet", 5, 4, 1));
 			 this.towers.push(new Tower(this.game,"canon", "base", "bullet", 5, 8, 1));
 			 this.towers.push(new Tower(this.game,"canon", "base", "bullet", 7, 8, 1)); 
 			 this.towers.push(new Tower(this.game,"canon", "base", "bullet", 15, 8, 1)); 
+		 },
+		 
+		 garbage: function() {
+			 for(var i = this.enemies.length; i--;) {
+		          if(this.enemies[i].alive == false) {
+		        	  this.enemies[i].splice(i, 1);
+		        	  
+		          }
+		      }
 		 }
 	};
 

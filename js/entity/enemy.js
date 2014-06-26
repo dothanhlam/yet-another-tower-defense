@@ -68,7 +68,6 @@ define(function() {
 				obj1.angle = -90;
 			}
 			this.lastDir = dir;
-
 		},
 
 		findDirection : function() {
