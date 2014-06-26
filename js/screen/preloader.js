@@ -13,13 +13,13 @@ define(['phaser', 'helper/resource'], function(Phaser, R) {
 		preload : function() {
 			R.game = this.game;
 			R.loadTiledMap(["default"]);
-		    R.loadImage(["car.png","bullet.png","tiles.png"]);
+		    R.loadImage(["car.png","bullet.png","tiles.png","menu.png"]);
 		    R.loadAtlas(["tanks"]);
 		    R.loadSingleSpriteSheet("explosion", 64, 64, 23);
 		},
 
 		create : function() {
-			this.game.state.start('Menu');
+			this.game.state.start('Play');
 		}
 	};
 
