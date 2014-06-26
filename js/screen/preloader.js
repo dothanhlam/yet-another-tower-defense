@@ -16,6 +16,8 @@ define(['phaser', 'helper/resource'], function(Phaser, R) {
 		    R.loadImage(["car.png","bullet.png","tiles.png","menu.png"]);
 		    R.loadAtlas(["tanks"]);
 		    R.loadSingleSpriteSheet("explosion", 64, 64, 23);
+		    
+		  
 		},
 
 		create : function() {

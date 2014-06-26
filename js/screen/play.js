@@ -1,13 +1,14 @@
 /**
  * 
  */
-define(["entity/enemy", "entity/tower"], function(Enemy, Tower) {
+define(["entity/enemy", "entity/tower", "entity/player"], function(Enemy, Tower, Player) {
 
 	function Play(game) {
 		this.game = game;
 		this.map = null;
 		this.layer = null;
 		
+		this.player = null;
 		this.towers  = [];
 		this.enemies = [];		
 	}
@@ -29,6 +30,7 @@ define(["entity/enemy", "entity/tower"], function(Enemy, Tower) {
 		    
 		    this.addTower();
 		    this.addEnemy();
+		    this.addPlayer();
 		    
 		    var self = this;
 		    setInterval( function() {
@@ -69,6 +71,10 @@ define(["entity/enemy", "entity/tower"], function(Enemy, Tower) {
 			 this.towers.push(new Tower(this.game,"canon", "base", "bullet", 5, 8, 1));
 			 this.towers.push(new Tower(this.game,"canon", "base", "bullet", 7, 8, 1)); 
 			 this.towers.push(new Tower(this.game,"canon", "base", "bullet", 15, 8, 1)); 
+		 },
+		 
+		 addPlayer: function() {
+			 this.player = new Player(this.game, this.layer);
 		 },
 		 
 		 garbage: function() {
