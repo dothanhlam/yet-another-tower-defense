@@ -3,10 +3,10 @@
  */
 define([], function() {
     
-	function Menu(game) {
+	Menu = function(game) {
 		this.game = game;
 		this.menu = [];
-	}
+	};
 
 	Menu.prototype = {
 		preload : function() {    

@@ -4,10 +4,9 @@
 define(['phaser', 'helper/resource'], function(Phaser, R) {
 	
 
-	function Preloader(game) {
-		this.game = game;
-		
-	}
+	Preloader = function (game) {
+		this.game = game;		
+	};
 
 	Preloader.prototype = {
 		preload : function() {

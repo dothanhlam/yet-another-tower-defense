@@ -2,9 +2,9 @@
  * 
  */
 define([], function() {
-	function Boot(game) {
+	Boot = function(game) {
 		this.game = game;
-	}
+	};
 
 	Boot.prototype = {
 		preload : function() {

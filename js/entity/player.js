@@ -2,33 +2,35 @@
  * 
  */
 
-define([], function() {
-	function Player(game, layer, playScene) {
+define(function() {
+	 Player = function(game, layer, playScene) {
 		this.game = game;
 		this.layer = layer;
 		this.playScene = playScene;
 		this.paused = false;
-
+		this.inventoriesToggled = false;
+		
 		var items = this.game.add.group();
 		var inventoryItems = this.game.add.group();
 
 		items.create(0, this.game.height - 32, 'menu');
 		items.create(this.game.width - 256, this.game.height - 32, 'menu');
 
-		var scoreText = new Phaser.Text(this.game, 0, 0,
-				this.zeroLeading(0, 6), {
+		this.scoreText = new Phaser.Text(this.game, 0, 0,
+				this.zeroLeading(0, 4), {
 					'font' : '22px Helvetica',
 					fill : '#fff'
 				});
-		items.add(scoreText);
+		items.add(this.scoreText);
 
-		var coinText = new Phaser.Text(this.game, this.game.width - 70, 0, this
+		this.moneyText = new Phaser.Text(this.game, this.game.width - 70, 0, this
 				.zeroLeading(0, 4)
 				+ " $", {
 			'font' : '22px Helvetica',
 			fill : '#fff'
 		});
-		items.add(coinText);
+		
+		items.add(this.moneyText);
 
 		this.game.add.button(game.world.centerX - 48, 24, 'play',
 				this.buttonClickHandler, this).anchor.setTo(0.5, 0.5);
@@ -44,18 +46,38 @@ define([], function() {
 
 		inventoryItems.x = this.game.width - 200;
 		inventoryItems.y = this.game.height - 32;
-	}
+		
+		//player
+		this.collect(null);
+	};
 
 	Player.prototype = {
-		init : function() {
+		buyTower: function(tower) {
+			this.money -= tower.cost;
+			this.update();
+		},
+		
+		collect : function(enemy) {
+			if (enemy) {
+				this.money += enemy.earning;
+				this.score ++;
+			}
+			else {
+				this.money = 100;
+				this.score = 0;
+			}
+			this.update();
 		},
 
-		update : function(data) {
-			scoreText.setTet(this.zeroLeading(100, 6));
+		
+		update : function() {			
+			this.moneyText.text = this.zeroLeading(this.money, 4) + " $";
+			this.scoreText.text = this.zeroLeading(this.score, 4);
 		},
 
 		inventoriesClickHandler: function(target) {
-			this.playScene.enableInventoryMode = !this.playScene.enableInventoryMode;
+			this.inventoriesToggled = !this.inventoriesToggled;
+			this.playScene.toggleInventory(this.inventoriesToggled);
 		},
 		
 		buttonClickHandler : function(target) {
