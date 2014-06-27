@@ -11,15 +11,23 @@ define(['phaser', 'helper/resource'], function(Phaser, R) {
 	Preloader.prototype = {
 		preload : function() {
 			this.game.add.image(0, 0, "splash");
+			var caption = this.game.add.text(0, 0, "Version 0.1 - for evaluating purpose only\nPowered by Phaser.io and RequireJS", {
+		        font: "9px Arial",
+		        fill: "#fff",
+		        align: "center"
+		    });
+			
+			caption.x = (this.game.width - caption.width) / 2;
+			caption.y = (this.game.height - caption.height * 2);
 			
 			this.graphics = this.game.add.graphics(0, 0);
 			this.graphics.lineStyle(2, 0xFFFF00, 1);
-		    this.graphics.drawRect((this.game.width - 200) / 2, (this.game.height + 100) / 2, 200, 10);
+		    this.graphics.drawRect((this.game.width - 200) / 2, (this.game.height + 120) / 2, 200, 10);
 		    this.graphics.lineStyle(1, 0xFFCC00, 1);
 		    
 			R.game = this.game;
 			R.loadTiledMap(["default"]);
-		    R.loadImage(["car.png","bullet.png","tiles.png","menu.png"]);
+		    R.loadImage(["car.png","bullet.png","tiles.png","menu.png", "background.png"]);
 		    R.loadAtlas(["tanks"]);
 		    R.loadSingleSpriteSheet("explosion", 64, 64, 23);
 		    
@@ -36,7 +44,7 @@ define(['phaser', 'helper/resource'], function(Phaser, R) {
 		
 		loadHandler: function(progress){ 
             this.graphics.beginFill(0xFFCC00, 1);
-            this.graphics.drawRect((this.game.width - 196) / 2, (this.game.height + 100) / 2 + 2, 195 * progress / 100, 5);
+            this.graphics.drawRect((this.game.width - 196) / 2, (this.game.height + 120) / 2 + 2, 195 * progress / 100, 5);
             this.graphics.endFill();
         },
 

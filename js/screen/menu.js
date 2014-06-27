@@ -12,23 +12,29 @@ define([], function() {
 		preload : function() {    
 		},
 
-		create : function() {						
+		create : function() {	
+			this.game.add.image(0, 0, "background").alpha = 0.3;
+			
 			this.createItem(5, "Play", "Play");
-			this.createItem(3, "Settings", "Settings");			
-			this.createItem(1, "Help", "Help");
+			this.createItem(3, "Resume", "Play");
+			this.createItem(1, "Top Scores", "Play");			
+			this.createItem(-1, "Settings", "Settings");			
+			this.createItem(-3, "Help", "Help");
 		},     
         
         update : function() {                  
         },   
         
         createItem: function(index, text, action) {
+        	
         	var item = this.game.add.group();
-        	var estimatedWidth = text.length * 10;
         	
         	var itemSprite = item.create((this.game.width - 256) / 2, (this.game.height - 32) / 2 - 32 * index ,'menu'); // adding a sprite
         	itemSprite.name = "item_" + index;
         	this.menu[itemSprite.name] = action;
-            var itemText = new Phaser.Text(this.game, (this.game.width - estimatedWidth) / 2, (this.game.height - 31) / 2 - 31 *index - 3, text, { 'font': '22px Helvetica', fill: '#fff' });
+            var itemText = new Phaser.Text(this.game, 0, 0, text, { 'font': '22px Helvetica', fill: '#fff' });
+            itemText.x = (this.game.width - itemText.width) / 2;
+            itemText.y = (this.game.height - itemText.height) / 2 - 32 *index ;
             item.add(itemText);
                         
             itemSprite.inputEnabled=true;            

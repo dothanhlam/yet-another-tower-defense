@@ -13,10 +13,9 @@ define(function() {
 		var items = this.game.add.group();
 		var inventoryItems = this.game.add.group();
 
-		items.create(0, this.game.height - 32, 'menu');
-		items.create(this.game.width - 256, this.game.height - 32, 'menu');
+		items.create((this.game.width - 256)/2, this.game.height - 32, 'menu');
 
-		this.scoreText = new Phaser.Text(this.game, 0, 0,
+		this.scoreText = new Phaser.Text(this.game, 10, 0,
 				this.zeroLeading(0, 4), {
 					'font' : '22px Helvetica',
 					fill : '#fff'
@@ -44,7 +43,7 @@ define(function() {
 		tower1.inputEnabled = true; 
 		tower1.events.onInputDown.add(this.inventoriesClickHandler, this);
 
-		inventoryItems.x = this.game.width - 200;
+		inventoryItems.x = (this.game.width - 150)/2;
 		inventoryItems.y = this.game.height - 32;
 		
 		//player
