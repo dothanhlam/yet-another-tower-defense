@@ -17,7 +17,9 @@ define(['phaser', 'helper/resource'], function(Phaser, R) {
 		    R.loadAtlas(["tanks"]);
 		    R.loadSingleSpriteSheet("explosion", 64, 64, 23);
 		    
-		  
+		    R.loadSingleSpriteSheet("play", 47, 48, 1);
+		    R.loadSingleSpriteSheet("options", 47, 48, 1);
+		    R.loadSingleSpriteSheet("quit", 47, 48, 1);		    
 		},
 
 		create : function() {

@@ -3,10 +3,10 @@
  */
 
 define([], function() {
-	function Tower(game, canonSprite, baseSprite, bulletSprite, x, y, range) {
+	function Tower(game, group, x, y, range) {
+		this.group = group;
 		this.game = game;
-		this.tank = this.game.add.sprite(x * 32 + 16, y * 32 + 16, 'tanks',
-				'tank1');
+		this.tank = this.game.add.sprite(x * 32 + 16, y * 32 + 16, 'tanks');
 		this.tank.anchor.setTo(0.5, 0.5);
 		this.game.physics.enable(this.tank, Phaser.Physics.ARCADE);
 
@@ -30,11 +30,19 @@ define([], function() {
 		this.bullets.enableBody = true;
 		this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
 		this.bullets.createMultiple(30, 'bullet', 0, false);
-		this.bullets.setAll('anchor.x', 0.5);
+		this.bullets.setAll('anchor.x', 0.3);
 		this.bullets.setAll('anchor.y', 0.5);
 		this.bullets.setAll('outOfBoundsKill', true);
 		this.bullets.setAll('checkWorldBounds', true);
+		
+		this.group.add(this.tank);
+		this.group.add(this.turret);
+		this.group.add(this.bullets);
+		
+		this.tank.bringToTop();
+		this.turret.bringToTop();
 
+		
 	//	this.game.debug.body(this.tank);
 	}
 
@@ -69,6 +77,7 @@ define([], function() {
 		},
 		
 		update : function(enemies) {
+			
 			this.trackingEnemies = enemies;
 			
 			for (var i = 0; i < enemies.length; i++) {

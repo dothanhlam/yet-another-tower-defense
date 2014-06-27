@@ -4,13 +4,14 @@
 
 define(function() {
 
-	Enemy = function(game, layer, map, index, spriteName, x, y, speed) {
+	Enemy = function(game, layer, group, map, index, spriteName, x, y, speed) {
 		this.game = game;
 		this.layer = layer;
+		this.group = group;
+		
 		this.map = map;
 		this.lastDir = "none";
         
-
 		this.explosions = this.game.add.group();
 		for (var i = 0; i < 10; i++) {
 			var explosionAnimation = this.explosions.create(0, 0, 'explosion',
@@ -27,16 +28,16 @@ define(function() {
 		this.game.physics.enable(this.sprite);
 
 		this.sprite.body.collideWorldBounds = true;
-
 		this.sprite.anchor.setTo(0.5, 0.5);
-
 		this.sprite.body.velocity.x = speed;
 		this.sprite.body.velocity.y = 0;
 
-		this.alive = true;
-        
+		
+		this.alive = true;        
 		this.health = 20;
 		this.speed = speed;
+		
+		this.group.add(this.sprite);
 	};
 
 	Enemy.prototype = {
@@ -45,6 +46,10 @@ define(function() {
 		},
 
 		update : function() {
+			if (this.pauseGame) {
+				return;
+			}
+			
 			this.game.physics.arcade.collide(this.sprite, this.layer,
 					this.collisionHandler, null, this);
 		},
