@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="RPGTiles" tilewidth="32" tileheight="32">
-  <image source="../assets/image/RPGTiles.png" width="512" height="64"/>
+  <image source="../assets/image/tiles.png" width="512" height="64"/>
  </tileset>
  <layer name="World" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJwTZGBgEBzEWAALpkQ/NnlSzSNFnlL7sZmHT+9IN08WCYtiCX9SzeMEYl4gZgViMRLdjk2MGYh5gJiNSuaB3MdPgnmE8hM3VIwY8/BhSSCWh/qXBYiZKDQPZBYjEAMAV/ITiQ==
+   eJzFlEsKwDAIRG2bSEq/9z9tu6gQZBJEA13MTt/IaJKIKA3UAZRfTQatoPcGYiNvA731rLviIf8MeKViID/u+HOnvjW/5hUwe4THjd6/eOeX/TWIh3bg4S2Eb3528iy3K1noPLy8yHuyZCF5SB36DyJ6AAulCDU=
   </data>
  </layer>
 </map>

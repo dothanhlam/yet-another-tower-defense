@@ -3,12 +3,15 @@
  */
 
 define(function() {
-	 Player = function(game, layer, playScene) {
+	 Player = function(game, layer, playScene, health) {
 		this.game = game;
 		this.layer = layer;
 		this.playScene = playScene;
 		this.paused = false;
 		this.inventoriesToggled = false;
+		
+		this.health = health;
+		this.totalHealth = health;
 		
 		var items = this.game.add.group();
 		var inventoryItems = this.game.add.group();
@@ -31,12 +34,12 @@ define(function() {
 		
 		items.add(this.moneyText);
 
-		this.game.add.button(game.world.centerX - 48, 24, 'play',
+	/*	this.game.add.button(game.world.centerX - 48, 24, 'play',
 				this.buttonClickHandler, this).anchor.setTo(0.5, 0.5);
 		this.game.add.button(game.world.centerX, 24, 'options',
 				this.buttonClickHandler, this).anchor.setTo(0.5, 0.5);
 		this.game.add.button(game.world.centerX + 48, 24, 'quit',
-				this.buttonClickHandler, this).anchor.setTo(0.5, 0.5);
+				this.buttonClickHandler, this).anchor.setTo(0.5, 0.5); */
 
 		var tower1 = inventoryItems.create(0, 0, 'tanks', 'turret');
 		tower1.scale.x = tower1.scale.y = 0.7;
@@ -56,12 +59,27 @@ define(function() {
 		inventoryItems.x = (this.game.width - 150)/2;
 		inventoryItems.y = (this.game.height - 28);
 		
+		this.graphics = this.game.add.graphics(0, 0);
+				
 		//player
-		this.collect(null);
+		this.collect(null);		
+		this.updateHealth(0);
 	};
 
 	Player.prototype = {
 	
+			updateHealth: function(val) {
+			this.health += val;
+			var percent = this.health / this.totalHealth;
+			this.graphics.clear();
+			this.graphics.lineStyle(10, this.health < 50 ? 0xFF0000 : 0x00FF00, 1);
+			this.graphics.moveTo(this.scoreText.x + 80, (this.scoreText.height-10)/2 + 5);
+		    this.graphics.lineTo(this.scoreText.x + 80 +  (50 * percent), (this.scoreText.height-10)/2  + 5);
+			this.graphics.lineStyle(2, 0xFFFF00, 1);
+			this.graphics.drawRect(this.scoreText.x + 80, (this.scoreText.height-10)/2 , 50, 10);			
+		},
+		
+		
 		sellTower: function(tower) {
 			
 		},	
@@ -73,8 +91,19 @@ define(function() {
 		
 		collect : function(enemy) {
 			if (enemy) {
-				this.money += enemy.earning;
-				this.score ++;
+				if (!enemy.selfKilling) {
+					this.money += enemy.earning;
+					this.score ++;
+				}
+				else {
+					this.updateHealth(-10); // actually update
+					
+					if (this.health <= 0) {
+						// GAME OVER
+						// GOTO high score or menu
+						this.playScene.gameOver();
+					}
+				}
 			}
 			else {
 				this.money = 100;

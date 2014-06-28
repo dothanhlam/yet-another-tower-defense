@@ -5,14 +5,16 @@
 define(function() {
 
 	Enemy = function(game, layer, group, map, index, trackingTileId,
-			spriteName, x, y, speed, health, earning) {
+			spriteName, x, y, speed, health, earning, dest) {
+	
 		this.game = game;
 		this.layer = layer;
 		this.group = group;
 		this.map = map;
 		this.trackingTileId = trackingTileId;
 		this.lastDir = "none";
-
+		this.dest = dest;
+		
 		this.explosions = this.game.add.group();
 		for (var i = 0; i < 10; i++) {
 			var explosionAnimation = this.explosions.create(0, 0, 'explosion',
@@ -28,27 +30,27 @@ define(function() {
 
 		this.game.physics.enable(this.sprite);
 
-		this.sprite.body.collideWorldBounds = true;
+		//this.sprite.body.collideWorldBounds = true;
 		this.sprite.anchor.setTo(0.5, 0.5);
 		this.sprite.body.velocity.x = speed;
 		this.sprite.body.velocity.y = 0;
 
 		this.alive = true;
+		this.selfKilling = false;
 		this.health = health;
 		this.totalHealth = health;
-		this.damagedHealth = 0;
+
 		this.speed = speed;
 		this.earning = earning;
 		
 		this.graphics = this.game.add.graphics(0, 0);
 		
-		
-	    
 		this.group.add(this.sprite);
 		this.group.add(this.graphics);
 	};
 
 	Enemy.prototype = {
+					
 		init : function() {
 
 		},
@@ -58,24 +60,36 @@ define(function() {
 				return;
 			}
 
+			if (this.isCollidingWithTower()) {
+				this.selfKilling = true;
+				this.damage(this.health);
+				return;
+			}
+			
 			this.drawHealthBar();			
 			this.game.physics.arcade.collide(this.sprite, this.layer,
 					this.collisionHandler, null, this);
 		},
 
+		isCollidingWithTower: function() {
+			var tileX = this.layer.getTileX(this.sprite.x);
+			var tileY = this.layer.getTileY(this.sprite.y);
+			return tileX == this. dest.x && tileY == this.dest.y; 
+		},
+		
 		drawHealthBar: function() {
 			var percent = this.health / this.totalHealth;
 			this.graphics.clear();
 			this.graphics.lineStyle(2, 0xFFFF00, 0.5);
 			this.graphics.drawRect(this.sprite.x - this.sprite.width / 2, this.sprite.y - this.sprite.height , 32, 4);
-			this.graphics.lineStyle(2, 0x00FF00, 1);
+			this.graphics.lineStyle(2, percent < 0.6 ? 0xFF0000 : 0x00FF00, 1);
 			this.graphics.moveTo(this.sprite.x - this.sprite.width / 2, this.sprite.y - this.sprite.height + 2);
 		    this.graphics.lineTo(this.sprite.x - this.sprite.width / 2 +  (32 * percent), this.sprite.y - this.sprite.height + 2);
 		},
 		
 		collisionHandler : function(obj1, obj2) {
 			var dir = this.findDirection();
-
+		
 			if (dir == "bottom") {
 				obj1.body.velocity.x = 0;
 				obj1.body.velocity.y = this.speed;
@@ -100,6 +114,7 @@ define(function() {
 			var tileX = this.layer.getTileX(this.sprite.x);
 			var tileY = this.layer.getTileY(this.sprite.y);
 
+			
 			var right = this.map.getTile(tileX + 1, tileY, this.layer, true).index;
 			var left = this.map.getTile(tileX - 1, tileY, this.layer, true).index;
 			var bottom = this.map.getTile(tileX, tileY + 1, this.layer, true).index;
@@ -131,7 +146,8 @@ define(function() {
 				return true;
 			}
 			return false;
-		}
+		},
+		
 	};
 
 	return Enemy;

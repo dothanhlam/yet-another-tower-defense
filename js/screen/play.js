@@ -14,6 +14,8 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 		this.towersLocation = [];
 		this.enemies = [];
 
+		this.destinationCell = {x: 19, y: 2};
+		
 		this.gamePause = false;
 	};
 
@@ -30,7 +32,7 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 
 			this.layer = this.map.createLayer("World");
 			this.layer.resizeWorld();
-			this.map.setCollision([ 17 ]);
+			this.map.setCollision([ 17, 31, 1, 5, 30, 13, 27, 9, 22, 27, 8, 4, 20, 28, 11, 6 ]);
 
 			this.enemiesGroup = this.game.add.group();
 			this.towersGroup = this.game.add.group();
@@ -76,6 +78,11 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 					.getTileY(this.game.input.activePointer.worldY);
 			
 			
+			if (tileX == 0 || tileX == 19 || tileY == 0 || tileY == 14) {
+				// foolish boundary checking
+				return;
+			}
+			
 			if (this.map.getTile(tileX, tileY, this.layer, true).index == 16) {
 				return;
 			}			
@@ -101,11 +108,11 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 			var index = this.enemies.length;
 			this.enemies
 					.push(new Enemy(this.game, this.layer, this.enemiesGroup,
-							this.map, index, 16, 'car', 0, 2, 64, 20, 5));
+							this.map, index, 16, 'hunter', 0, 2, 64, 20, 5, this.destinationCell));
 		},
 
 		addPlayer : function() {
-			this.player = new Player(this.game, this.layer, this);
+			this.player = new Player(this.game, this.layer, this, 100);
 		},
 
 		start : function() {
@@ -129,6 +136,13 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 			this.gamePause = false;
 			this.towersGroup.exists = !this.gamePause;
 			this.enemiesGroup.exists = !this.gamePause;
+		},
+		
+		gameOver : function() {
+			clearInterval(this.interval);
+			delete this.interval;
+			
+			this.game.state.start('Menu');
 		}
 	};
 
