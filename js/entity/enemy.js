@@ -35,10 +35,17 @@ define(function() {
 
 		this.alive = true;
 		this.health = health;
+		this.totalHealth = health;
+		this.damagedHealth = 0;
 		this.speed = speed;
 		this.earning = earning;
-
+		
+		this.graphics = this.game.add.graphics(0, 0);
+		
+		
+	    
 		this.group.add(this.sprite);
+		this.group.add(this.graphics);
 	};
 
 	Enemy.prototype = {
@@ -51,10 +58,21 @@ define(function() {
 				return;
 			}
 
+			this.drawHealthBar();			
 			this.game.physics.arcade.collide(this.sprite, this.layer,
 					this.collisionHandler, null, this);
 		},
 
+		drawHealthBar: function() {
+			var percent = this.health / this.totalHealth;
+			this.graphics.clear();
+			this.graphics.lineStyle(2, 0xFFFF00, 0.5);
+			this.graphics.drawRect(this.sprite.x - this.sprite.width / 2, this.sprite.y - this.sprite.height , 32, 4);
+			this.graphics.lineStyle(2, 0x00FF00, 1);
+			this.graphics.moveTo(this.sprite.x - this.sprite.width / 2, this.sprite.y - this.sprite.height + 2);
+		    this.graphics.lineTo(this.sprite.x - this.sprite.width / 2 +  (32 * percent), this.sprite.y - this.sprite.height + 2);
+		},
+		
 		collisionHandler : function(obj1, obj2) {
 			var dir = this.findDirection();
 
@@ -103,10 +121,10 @@ define(function() {
 
 		damage : function(val) {
 			this.health -= val;
-
 			if (this.health <= 0) {
 				this.alive = false;
 				this.sprite.kill();
+				this.graphics.destroy();
 				var explosionAnimation = this.explosions.getFirstExists(false);
 				explosionAnimation.reset(this.sprite.x, this.sprite.y);
 				explosionAnimation.play('explosion', 30, false, true);

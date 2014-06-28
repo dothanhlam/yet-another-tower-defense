@@ -11,6 +11,7 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 
 		this.player = null;
 		this.towers = [];
+		this.towersLocation = [];
 		this.enemies = [];
 
 		this.gamePause = false;
@@ -62,11 +63,12 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 
 		toggleInventory : function(enableInventoryMode) {
 			enableInventoryMode ? this.game.input.onDown
-					.add(this.addItem, this) : this.game.input.onDown.remove(
-					this.addItem, this);
+					.add(this.towerHandler, this) : this.game.input.onDown.remove(
+					this.towerHandler, this);
 		},
 
-		addItem : function() {
+		
+		towerHandler : function() {
 			
 			var tileX = this.layer
 					.getTileX(this.game.input.activePointer.worldX);
@@ -78,6 +80,11 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 				return;
 			}			
 			
+			if (this.towersLocation[tileX + "_" + tileY] != null) {
+				console.log('sell this tower');
+				return;
+			}
+			
 			if (this.player.money - 20 < 0) {
 				// insufficient money supply
 				return;
@@ -87,6 +94,7 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 
 			this.towers.push(tower);
 			this.player.buyTower(tower);
+			this.towersLocation[tileX + "_" + tileY] = tower;
 		},
 
 		addEnemy : function() {

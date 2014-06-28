@@ -13,7 +13,7 @@ define(function() {
 		var items = this.game.add.group();
 		var inventoryItems = this.game.add.group();
 
-		items.create((this.game.width - 256)/2, this.game.height - 32, 'menu');
+		items.create((this.game.width - 256)/2, this.game.height - 32, 'panel');
 
 		this.scoreText = new Phaser.Text(this.game, 10, 0,
 				this.zeroLeading(0, 4), {
@@ -39,18 +39,33 @@ define(function() {
 				this.buttonClickHandler, this).anchor.setTo(0.5, 0.5);
 
 		var tower1 = inventoryItems.create(0, 0, 'tanks', 'turret');
+		tower1.scale.x = tower1.scale.y = 0.7;
 		tower1.name = "basic";
 		tower1.inputEnabled = true; 
 		tower1.events.onInputDown.add(this.inventoriesClickHandler, this);
 
+		var tower2 = inventoryItems.create(0, 0, 'tanks', 'tank1');
+		tower2.scale.x = tower2.scale.y = 0.4;
+		tower2.name = "basic";
+		tower2.x = 40;
+		tower2.y = 0;
+		
+		//tower2.inputEnabled = true; 
+	//	tower1.events.onInputDown.add(this.inventoriesClickHandler, this);
+		
 		inventoryItems.x = (this.game.width - 150)/2;
-		inventoryItems.y = this.game.height - 32;
+		inventoryItems.y = (this.game.height - 28);
 		
 		//player
 		this.collect(null);
 	};
 
 	Player.prototype = {
+	
+		sellTower: function(tower) {
+			
+		},	
+			
 		buyTower: function(tower) {
 			this.money -= tower.cost;
 			this.update();
