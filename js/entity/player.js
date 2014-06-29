@@ -3,10 +3,12 @@
  */
 
 define(function() {
-	 Player = function(game, layer, playScene, health) {
+	 Player = function(game, layer, playScene, waves, health) {
 		this.game = game;
 		this.layer = layer;
 		this.playScene = playScene;
+		this.waves = waves;
+		
 		this.paused = false;
 		this.inventoriesToggled = false;
 		
@@ -25,6 +27,13 @@ define(function() {
 				});
 		items.add(this.scoreText);
 
+		this.wavesText = new Phaser.Text(this.game,  this.game.width - 150, 0,
+				"0 / " + this.waves.length, {
+					'font' : '22px Helvetica',
+					fill : '#fff'
+				});
+		items.add(this.wavesText);
+		
 		this.moneyText = new Phaser.Text(this.game, this.game.width - 70, 0, this
 				.zeroLeading(0, 4)
 				+ " $", {
@@ -52,6 +61,24 @@ define(function() {
 		tower2.name = "basic";
 		tower2.x = 40;
 		tower2.y = 0;
+		
+		var tower3 = inventoryItems.create(0, 0, 'tanks', 'tank2');
+		tower3.scale.x = tower3.scale.y = 0.4;
+		tower3.name = "basic";
+		tower3.x = 70;
+		tower3.y = 0;
+		
+		var tower4 = inventoryItems.create(0, 0, 'tanks', 'tank3');
+		tower4.scale.x = tower4.scale.y = 0.4;
+		tower4.name = "basic";
+		tower4.x = 100;
+		tower4.y = 0;
+		
+		var tower5 = inventoryItems.create(0, 0, 'tanks', 'tank4');
+		tower5.scale.x = tower5.scale.y = 0.4;
+		tower5.name = "basic";
+		tower5.x = 130;
+		tower5.y = 0;
 		
 		//tower2.inputEnabled = true; 
 	//	tower1.events.onInputDown.add(this.inventoriesClickHandler, this);
@@ -121,6 +148,7 @@ define(function() {
 		inventoriesClickHandler: function(target) {
 			this.inventoriesToggled = !this.inventoriesToggled;
 			this.playScene.toggleInventory(this.inventoriesToggled);
+			target.blendMode = this.inventoriesToggled ? PIXI.blendModes.ADD : PIXI.blendModes.NORMAL;
 		},
 		
 		buttonClickHandler : function(target) {
