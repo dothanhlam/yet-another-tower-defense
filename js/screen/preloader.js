@@ -28,7 +28,7 @@ define(['phaser', 'helper/resource'], function(Phaser, R) {
 			R.game = this.game;
 			R.loadTiledMap(["default"]);
 		    R.loadImage(["bullet.png","tiles.png","menu.png","panel.png", "background.png"]);
-		    R.loadImage(["hunter.png","harpoon.png","catapult.png"]);
+		    R.loadImage(["hunter.png","harpoon.png","catapult.png", "spacker.png"]);
 		    R.loadAtlas(["tanks"]);
 		    R.loadSingleSpriteSheet("explosion", 64, 64, 23);
 		    

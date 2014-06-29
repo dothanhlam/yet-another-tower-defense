@@ -14,29 +14,36 @@ define(function() {
 		
 		this.health = health;
 		this.totalHealth = health;
-		
+		this.graphics = this.game.add.graphics(0, 0);
+
 		var items = this.game.add.group();
 		var inventoryItems = this.game.add.group();
+		this.graphics.lineStyle(0);
+	    this.graphics.beginFill(0x0, 0.3);
+	    this.graphics.drawRect(0, 0, 100, 25);
+	    this.graphics.drawRect(110, 0, 100, 25);
+	    this.graphics.drawRect(220, 0, 100, 25);
+	    this.graphics.drawRect(330, 0, 100, 25);
+	    this.graphics.drawRect(this.game.width - 110, 0, 100, 25);
 
 		items.create((this.game.width - 256)/2, this.game.height - 32, 'panel');
 
-		this.scoreText = new Phaser.Text(this.game, 10, 0,
+		this.scoreText = new Phaser.Text(this.game, 20, 0,
 				this.zeroLeading(0, 4), {
 					'font' : '22px Helvetica',
 					fill : '#fff'
 				});
 		items.add(this.scoreText);
 
-		this.wavesText = new Phaser.Text(this.game,  this.game.width - 150, 0,
-				"0 / " + this.waves.length, {
+		this.wavesText = new Phaser.Text(this.game,  this.game.width - 280, 0,
+				"0 / " + this.zeroLeading(this.waves.length, 2), {
 					'font' : '22px Helvetica',
 					fill : '#fff'
 				});
 		items.add(this.wavesText);
 		
-		this.moneyText = new Phaser.Text(this.game, this.game.width - 70, 0, this
-				.zeroLeading(0, 4)
-				+ " $", {
+		this.moneyText = new Phaser.Text(this.game, this.game.width - 90, 0, this
+				.zeroLeading(0, 6), {
 			'font' : '22px Helvetica',
 			fill : '#fff'
 		});
@@ -80,13 +87,8 @@ define(function() {
 		tower5.x = 130;
 		tower5.y = 0;
 		
-		//tower2.inputEnabled = true; 
-	//	tower1.events.onInputDown.add(this.inventoriesClickHandler, this);
-		
 		inventoryItems.x = (this.game.width - 150)/2;
 		inventoryItems.y = (this.game.height - 28);
-		
-		this.graphics = this.game.add.graphics(0, 0);
 				
 		//player
 		this.collect(null);		
@@ -95,15 +97,15 @@ define(function() {
 
 	Player.prototype = {
 	
-			updateHealth: function(val) {
+		updateHealth: function(val) {
 			this.health += val;
 			var percent = this.health / this.totalHealth;
-			this.graphics.clear();
+			this.graphics.endFill();
 			this.graphics.lineStyle(10, this.health < 50 ? 0xFF0000 : 0x00FF00, 1);
-			this.graphics.moveTo(this.scoreText.x + 80, (this.scoreText.height-10)/2 + 5);
-		    this.graphics.lineTo(this.scoreText.x + 80 +  (50 * percent), (this.scoreText.height-10)/2  + 5);
+			this.graphics.moveTo(this.scoreText.x + 100, (this.scoreText.height-10)/2 + 5);
+		    this.graphics.lineTo(this.scoreText.x + 100 +  (50 * percent), (this.scoreText.height-10)/2  + 5);
 			this.graphics.lineStyle(2, 0xFFFF00, 1);
-			this.graphics.drawRect(this.scoreText.x + 80, (this.scoreText.height-10)/2 , 50, 10);			
+			this.graphics.drawRect(this.scoreText.x + 100, (this.scoreText.height-10)/2 , 50, 10);			
 		},
 		
 		
@@ -141,7 +143,7 @@ define(function() {
 
 		
 		update : function() {			
-			this.moneyText.text = this.zeroLeading(this.money, 4) + " $";
+			this.moneyText.text = this.zeroLeading(this.money, 6);
 			this.scoreText.text = this.zeroLeading(this.score, 4);
 		},
 
