@@ -34,12 +34,15 @@ define(['phaser', 'helper/resource'], function(Phaser, R) {
 		    
 		    R.loadSingleSpriteSheet("play", 47, 48, 1);
 		    R.loadSingleSpriteSheet("options", 47, 48, 1);
-		    R.loadSingleSpriteSheet("quit", 47, 48, 1);		    
+		    R.loadSingleSpriteSheet("quit", 47, 48, 1);		
+		    
+			 R.loadAudio(["alien_death1.wav", "shot1.wav"]);
+
 		    
 		    this.game.load.onFileComplete.add(this.loadHandler, this);
 		},
 
-		create : function() {			
+		create : function() {					
 			this.game.state.start('Play');
 		},
 		

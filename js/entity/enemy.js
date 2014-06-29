@@ -30,7 +30,7 @@ define(function() {
 
 		this.game.physics.enable(this.sprite);
 
-		//this.sprite.body.collideWorldBounds = true;
+		this.sprite.body.collideWorldBounds = true;
 		this.sprite.anchor.setTo(0.5, 0.5);
 		this.sprite.body.velocity.x = speed;
 		this.sprite.body.velocity.y = 0;
@@ -44,6 +44,8 @@ define(function() {
 		this.earning = earning;
 		
 		this.graphics = this.game.add.graphics(0, 0);
+	    this.musicDeath = this.game.add.audio('alien_death1');
+
 		
 		this.group.add(this.sprite);
 		this.group.add(this.graphics);
@@ -137,6 +139,7 @@ define(function() {
 		damage : function(val) {
 			this.health -= val;
 			if (this.health <= 0) {
+				this.musicDeath.play();
 				this.alive = false;
 				this.sprite.kill();
 				this.graphics.destroy();

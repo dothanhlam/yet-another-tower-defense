@@ -37,6 +37,9 @@ define(function() {
 		this.bullets.setAll('outOfBoundsKill', true);
 		this.bullets.setAll('checkWorldBounds', true);
 
+	    this.music = this.game.add.audio('shot1');
+	    this.music.volume = 0.25;
+	    
 		this.group.add(this.tank);
 		this.group.add(this.turret);
 		this.group.add(this.bullets);
@@ -59,6 +62,8 @@ define(function() {
 				bullet.reset(turret.x, turret.y);
 				bullet.rotation = this.game.physics.arcade.moveToObject(bullet,
 						target, 500);
+			    this.music.play();
+
 			}
 		},
 

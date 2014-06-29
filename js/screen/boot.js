@@ -10,9 +10,12 @@ define(['helper/resource'], function(R) {
 		preload : function() {
 			R.game = this.game;
 			 R.loadImage(["splash.png"]);
+			 R.loadAudio(["xeon6.ogg"]);
 		},
 
-		create : function() {		
+		create : function() {
+			music = this.game.add.audio('xeon6',1,true);
+			music.play('',0,1,true);
 			this.game.state.start('Preloader');
 		}
 	};
