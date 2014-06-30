@@ -8,6 +8,7 @@ define(function() {
 		this.layer = layer;
 		this.playScene = playScene;
 		this.waves = waves;
+		this.totalWaves = waves.length;
 		
 		this.paused = false;
 		this.inventoriesToggled = false;
@@ -36,7 +37,7 @@ define(function() {
 		items.add(this.scoreText);
 
 		this.wavesText = new Phaser.Text(this.game,  this.game.width - 280, 0,
-				"0 / " + this.zeroLeading(this.waves.length, 2), {
+				"00 / " + this.zeroLeading(this.waves.length, 2), {
 					'font' : '22px Helvetica',
 					fill : '#fff'
 				});
@@ -93,6 +94,7 @@ define(function() {
 		//player
 		this.collect(null);		
 		this.updateHealth(0);
+	
 	};
 
 	Player.prototype = {
@@ -145,6 +147,10 @@ define(function() {
 		update : function() {			
 			this.moneyText.text = this.zeroLeading(this.money, 6);
 			this.scoreText.text = this.zeroLeading(this.score, 4);
+		},
+		
+		showNextWave: function(wave) {
+			this.wavesText.text = this.zeroLeading(wave,2) + " / " + this.zeroLeading(this.totalWaves, 2);
 		},
 
 		inventoriesClickHandler: function(target) {

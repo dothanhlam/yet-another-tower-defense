@@ -11,7 +11,7 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 			speed : 64,
 			health : 20,
 			earning : 5,
-			nums : 5,
+			nums : 2,
 			delay : 2000
 		}, {
 			incoming: 10000,
@@ -19,7 +19,7 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 			speed : 128,
 			health : 10,
 			earning : 5,
-			nums : 15,
+			nums : 2,
 			delay : 3000
 		}, {
 			incoming: 1000,
@@ -27,11 +27,13 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 			speed : 64,
 			health : 30,
 			earning : 10,
-			nums : 5,
+			nums : 2,
 			delay : 2000
 		} ];
 
+		this.waves.reverse();
 		this.currentWave = null;
+		this.waveCounting = 1;
 		
 		this.game = game;
 		this.map = null;
@@ -77,11 +79,10 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 		},
 
 		update : function() {
-
 			if (this.gamePause) {
 				return;
 			}
-
+					
 			var i;
 			for (i = 0; i < this.enemies.length; i++) {
 				if (this.enemies[i].alive) {
@@ -89,6 +90,10 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 				} else {
 					this.player.collect(this.enemies[i]);
 					this.enemies.splice(i, 1);
+					
+					if (this.waves.length == 0 && this.enemies.length == 0) { // stupid check
+						this.gameOver();
+					}
 				}
 			}
 
@@ -138,7 +143,7 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 
 		addEnemy : function() {
 			this.currentWave.nums --;
-			if (this.currentWave.nums <= 0) {
+			if (this.currentWave.nums < 0) {
 				// ending wave, next incoming
 				clearInterval(this.enemyInterval);
 				delete this.enemyInterval;
@@ -147,8 +152,8 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 			}
 			var index = this.enemies.length;
 			this.enemies.push(new Enemy(this.game, this.layer,
-					this.enemiesGroup, this.map, index, 16, this.currentWave.enemy, 0, 2, 64,
-					20, 5, this.destinationCell));
+					this.enemiesGroup, this.map, index, 16, this.currentWave.enemy, 0, 2, this.currentWave.speed,
+					this.currentWave.health, this.currentWave.earning, this.destinationCell));
 		},
 
 		addPlayer : function() {
@@ -157,13 +162,19 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 
 		
 		startWave: function() {
-			if (this.waves.length == 0) {
-				this.gameOver();
+			
+			this.currentWave = this.waves.pop();
+			if (this.currentWave == null) {
+				// no more wave
+				
 				return;
 			}
-			this.currentWave = this.waves.pop();
 			var self = this;
-			setTimeout(function() {self.start();}, this.currentWave.incoming);			
+			setTimeout(function() {
+				self.player.showNextWave(self.waveCounting ++);
+				self.start();
+				}, 
+				this.currentWave.incoming);			
 		},
 		
 		
