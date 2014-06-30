@@ -17,7 +17,7 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 				speed : 64,
 				health : 20,
 				earning : 5,
-				nums : 2,
+				nums : 10,
 				delay : 2000
 			}, {
 				incoming: 10000,
@@ -25,15 +25,15 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 				speed : 128,
 				health : 10,
 				earning : 5,
-				nums : 2,
-				delay : 3000
+				nums : 10,
+				delay : 2000
 			}, {
 				incoming: 1000,
 				enemy : 'spacker',
 				speed : 64,
-				health : 30,
+				health : 40,
 				earning : 10,
-				nums : 2,
+				nums : 20,
 				delay : 2000
 			} ];
 
@@ -205,7 +205,12 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 			clearInterval(this.enemyInterval);
 			delete this.enemyInterval;
 
-			this.game.state.start('Menu');
+			var self = this;
+			setTimeout(function() {
+				self.game.state.start('Menu');
+				}, 
+				1500);		
+			
 		}
 	};
 

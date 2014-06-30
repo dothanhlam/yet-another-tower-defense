@@ -15,17 +15,20 @@ define(function() {
 		
 		this.health = health;
 		this.totalHealth = health;
+		
+		var transparentPanelGraphics = this.game.add.graphics(0, 0);
 		this.graphics = this.game.add.graphics(0, 0);
-
 		var items = this.game.add.group();
+		
 		var inventoryItems = this.game.add.group();
-		this.graphics.lineStyle(0);
-	    this.graphics.beginFill(0x0, 0.3);
-	    this.graphics.drawRect(0, 0, 100, 25);
-	    this.graphics.drawRect(110, 0, 100, 25);
-	    this.graphics.drawRect(220, 0, 100, 25);
-	    this.graphics.drawRect(330, 0, 100, 25);
-	    this.graphics.drawRect(this.game.width - 110, 0, 100, 25);
+		transparentPanelGraphics.lineStyle(0);
+		transparentPanelGraphics.beginFill(0x0, 0.3);
+		transparentPanelGraphics.drawRect(0, 0, 100, 25);
+		transparentPanelGraphics.drawRect(110, 0, 100, 25);
+		transparentPanelGraphics.drawRect(220, 0, 100, 25);
+		transparentPanelGraphics.drawRect(330, 0, 100, 25);
+		transparentPanelGraphics.drawRect(this.game.width - 110, 0, 100, 25);
+		transparentPanelGraphics.endFill();
 
 		items.create((this.game.width - 256)/2, this.game.height - 32, 'panel');
 
@@ -66,13 +69,13 @@ define(function() {
 
 		var tower2 = inventoryItems.create(0, 0, 'tanks', 'tank1');
 		tower2.scale.x = tower2.scale.y = 0.4;
-		tower2.name = "basic";
+		tower2.name = "basic-range-2";
 		tower2.x = 40;
 		tower2.y = 0;
 		
 		var tower3 = inventoryItems.create(0, 0, 'tanks', 'tank2');
 		tower3.scale.x = tower3.scale.y = 0.4;
-		tower3.name = "basic";
+		tower3.name = "basic-range-3";
 		tower3.x = 70;
 		tower3.y = 0;
 		
@@ -102,7 +105,7 @@ define(function() {
 		updateHealth: function(val) {
 			this.health += val;
 			var percent = this.health / this.totalHealth;
-			this.graphics.endFill();
+			this.graphics.clear();
 			this.graphics.lineStyle(10, this.health < 50 ? 0xFF0000 : 0x00FF00, 1);
 			this.graphics.moveTo(this.scoreText.x + 100, (this.scoreText.height-10)/2 + 5);
 		    this.graphics.lineTo(this.scoreText.x + 100 +  (50 * percent), (this.scoreText.height-10)/2  + 5);

@@ -4,7 +4,7 @@
 
 define([], function() {
 
-	Wave = function () {
+	Wave = function (nextIncoming, delay, enemy, speed, health, earning ) {
 		this.incoming =  1000;
 		this.enemy =  'hunter';
 		this.speed = 64;
@@ -22,8 +22,13 @@ define([], function() {
 
 		},
 		
-		getEnemy: function() {
-		
+		getEnemy: function() {			
+			return this.nums -- > 0 ?  {
+				enemy: this.enemy,
+				speed: this.speed,
+				health: this.health,
+				earning: this.earning
+			} : null;
 		}
 	};
 

@@ -43,7 +43,7 @@ define(['phaser', 'helper/resource'], function(Phaser, R) {
 		},
 
 		create : function() {					
-			this.game.state.start('Play');
+			this.game.state.start('Menu');
 		},
 		
 		loadHandler: function(progress){ 
