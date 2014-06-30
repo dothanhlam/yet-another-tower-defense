@@ -5,61 +5,60 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 		Tower, Player) {
 
 	Play = function(game) {
-		this.waves = [ {
-			incoming: 1000,
-			enemy : 'hunter',
-			speed : 64,
-			health : 20,
-			earning : 5,
-			nums : 2,
-			delay : 2000
-		}, {
-			incoming: 10000,
-			enemy : 'harpoon',
-			speed : 128,
-			health : 10,
-			earning : 5,
-			nums : 2,
-			delay : 3000
-		}, {
-			incoming: 1000,
-			enemy : 'spacker',
-			speed : 64,
-			health : 30,
-			earning : 10,
-			nums : 2,
-			delay : 2000
-		} ];
-
-		this.waves.reverse();
-		this.currentWave = null;
-		this.waveCounting = 1;
-		
 		this.game = game;
-		this.map = null;
-		this.layer = null;
 
-		this.player = null;
-		this.towers = [];
-		this.towersLocation = [];
-		this.enemies = [];
-
-		this.destinationCell = {
-			x : 19,
-			y : 2
-		};
-
-		this.nextWaveInterval = null;
-		
-		this.gamePause = false;
 	};
 
 	Play.prototype = {
 		preload : function() {
+			this.waves = [ {
+				incoming: 1000,
+				enemy : 'hunter',
+				speed : 64,
+				health : 20,
+				earning : 5,
+				nums : 2,
+				delay : 2000
+			}, {
+				incoming: 10000,
+				enemy : 'harpoon',
+				speed : 128,
+				health : 10,
+				earning : 5,
+				nums : 2,
+				delay : 3000
+			}, {
+				incoming: 1000,
+				enemy : 'spacker',
+				speed : 64,
+				health : 30,
+				earning : 10,
+				nums : 2,
+				delay : 2000
+			} ];
+
+			this.waves.reverse();
+			this.currentWave = null;
+			this.waveCounting = 1;
+			
+			this.map = null;
+			this.layer = null;
+
+			this.player = null;
+			this.towers = [];
+			this.towersLocation = [];
+			this.enemies = [];
+
+			this.destinationCell = {
+				x : 19,
+				y : 2
+			};
+
+			
+			this.gamePause = false;
 		},
 
 		create : function() {
-
 			this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
 			this.map = this.game.add.tilemap('default');
