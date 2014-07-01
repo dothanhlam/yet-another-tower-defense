@@ -3,6 +3,7 @@
  */
 
 define(function() {
+	
 	 Player = function(game, layer, playScene, waves, health) {
 		this.game = game;
 		this.layer = layer;
@@ -61,33 +62,53 @@ define(function() {
 		this.game.add.button(game.world.centerX + 48, 24, 'quit',
 				this.buttonClickHandler, this).anchor.setTo(0.5, 0.5); */
 
+		this.selectedTower = null;
+		
 		var tower1 = inventoryItems.create(0, 0, 'tanks', 'turret');
 		tower1.scale.x = tower1.scale.y = 0.7;
-		tower1.name = "basic";
+		tower1.range = 1;
+		tower1.cost = 20;
+		tower1.type = "turret";
 		tower1.inputEnabled = true; 
 		tower1.events.onInputDown.add(this.inventoriesClickHandler, this);
 
 		var tower2 = inventoryItems.create(0, 0, 'tanks', 'tank1');
 		tower2.scale.x = tower2.scale.y = 0.4;
-		tower2.name = "basic-range-2";
+		tower2.range = 2;
+		tower2.cost = 25;
+		tower2.type = "tank1";
+		tower2.inputEnabled = true; 
+		tower2.events.onInputDown.add(this.inventoriesClickHandler, this);
 		tower2.x = 40;
 		tower2.y = 0;
 		
 		var tower3 = inventoryItems.create(0, 0, 'tanks', 'tank2');
 		tower3.scale.x = tower3.scale.y = 0.4;
-		tower3.name = "basic-range-3";
+		tower3.range = 3;
+		tower3.cost = 30;
+		tower3.type = "tank2";
+		tower3.inputEnabled = true; 
+		tower3.events.onInputDown.add(this.inventoriesClickHandler, this);
 		tower3.x = 70;
 		tower3.y = 0;
 		
 		var tower4 = inventoryItems.create(0, 0, 'tanks', 'tank3');
 		tower4.scale.x = tower4.scale.y = 0.4;
-		tower4.name = "basic";
+		tower4.range = 4;
+		tower4.cost = 35;
+		tower4.type = "tank3";
+		tower4.inputEnabled = true; 
+		tower4.events.onInputDown.add(this.inventoriesClickHandler, this);
 		tower4.x = 100;
 		tower4.y = 0;
 		
 		var tower5 = inventoryItems.create(0, 0, 'tanks', 'tank4');
 		tower5.scale.x = tower5.scale.y = 0.4;
-		tower5.name = "basic";
+		tower5.range = 5;
+		tower5.cost = 40;
+		tower5.type = "tank4";
+		tower5.inputEnabled = true; 
+		tower5.events.onInputDown.add(this.inventoriesClickHandler, this);
 		tower5.x = 130;
 		tower5.y = 0;
 		
@@ -157,9 +178,15 @@ define(function() {
 		},
 
 		inventoriesClickHandler: function(target) {
-			this.inventoriesToggled = !this.inventoriesToggled;
-			this.playScene.toggleInventory(this.inventoriesToggled);
-			target.blendMode = this.inventoriesToggled ? PIXI.blendModes.ADD : PIXI.blendModes.NORMAL;
+			if (this.selectedTower) {
+				this.selectedTower.blendMode = PIXI.blendModes.NORMAL;
+			}
+			
+			this.inventoriesToggled = this.selectedTower != target;
+			this.selectedTower = target;
+			this.selectedTower.blendMode = this.inventoriesToggled ? PIXI.blendModes.ADD : PIXI.blendModes.NORMAL;
+			
+			this.playScene.toggleInventory(this.inventoriesToggled, this.selectedTower);			
 		},
 		
 		buttonClickHandler : function(target) {

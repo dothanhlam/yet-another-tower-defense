@@ -3,13 +3,13 @@
  */
 
 define(function() {
-	Tower = function(game, group, x, y, range, cost) {
+	Tower = function(game, group, x, y, type, range, cost) {
 		this.group = group;
 		this.game = game;
 		this.range = range;
 		this.cost = cost;
 
-		this.tank = this.game.add.sprite(x * 32 + 16, y * 32 + 16, 'tanks');
+		this.tank = this.game.add.sprite(x * 32 + 16, y * 32 + 16, 'tanks', type);
 		this.tank.anchor.setTo(0.5, 0.5);
 		this.game.physics.enable(this.tank, Phaser.Physics.ARCADE);
 

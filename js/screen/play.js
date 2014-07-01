@@ -101,7 +101,8 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 			}
 		},
 
-		toggleInventory : function(enableInventoryMode) {
+		toggleInventory : function(enableInventoryMode, tower) {
+			this.onGoingTower = tower;
 			enableInventoryMode ? this.game.input.onDown.add(this.towerHandler,
 					this) : this.game.input.onDown.remove(this.towerHandler,
 					this);
@@ -128,12 +129,13 @@ define([ "entity/enemy", "entity/tower", "entity/player" ], function(Enemy,
 				return;
 			}
 
-			if (this.player.money - 20 < 0) {
+			if (this.player.money - this.onGoingTower.cost < 0) {
 				// insufficient money supply
 				return;
 			}
-			var tower = new Tower(this.game, this.towersGroup, tileX, tileY, 1,
-					20);
+			
+			var tower = new Tower(this.game, this.towersGroup, tileX, tileY, this.onGoingTower.type, this.onGoingTower.range,
+					this.onGoingTower.cost);
 
 			this.towers.push(tower);
 			this.player.buyTower(tower);
